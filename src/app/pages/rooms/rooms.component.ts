@@ -1,20 +1,14 @@
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { RoomComponent } from '../../widgets/room/room.component';
-import { IRoom } from '../../entities/room';
-import { IMessage } from '../../entities/message';
-import { NgForOf, NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { DarkButtonComponent } from '../../shared/components/dark-button/dark-button.component';
-import { BehaviorSubject, debounceTime, find, Subject } from 'rxjs';
-import { RoomsService } from '../../services/rooms.service';
-import { UsersService } from '../../services/users.service';
+import {Component, ElementRef, inject, OnInit, ViewChild,} from '@angular/core';
+import {RoomComponent} from '../../widgets/room/room.component';
+import {IRoom} from '../../entities/room';
+import {IMessage} from '../../entities/message';
+import {NgForOf, NgIf} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {DarkButtonComponent} from '../../shared/components/dark-button/dark-button.component';
+import {BehaviorSubject, debounceTime, find, Subject} from 'rxjs';
+import {RoomsService} from '../../services/rooms.service';
+import {UsersService} from '../../services/users.service';
 
 @Component({
   selector: 'app-rooms',
@@ -81,6 +75,7 @@ export class RoomsComponent implements OnInit {
   refreshRooms() {
     this.usersService.getCurrentUser().subscribe((response) => {
       this.rooms = response.user.Rooms;
+      if (!this.rooms) this.rooms = [];
       this.messages = new Array(this.rooms.length);
       this.getMessages();
 
@@ -155,7 +150,8 @@ export class RoomsComponent implements OnInit {
   scrollToTop(): void {
     try {
       this.myScrollContainer.nativeElement.scrollTop = 0;
-    } catch (err) {}
+    } catch (err) {
+    }
   }
 
   ngOnInit(): void {
